@@ -1,6 +1,6 @@
 package com.ead.course.controllers;
 
-import com.ead.course.CourseDto;
+import com.ead.course.dtos.CourseDto;
 import com.ead.course.models.CourseModel;
 import com.ead.course.services.CourseService;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +25,7 @@ public class CourseController {
     CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<Object> sabeCourse(@RequestBody @Valid CourseDto courseDto) {
+    public ResponseEntity<Object> saveCourse(@RequestBody @Valid CourseDto courseDto) {
 
         var courseModel = new CourseModel();
         BeanUtils.copyProperties(courseDto, courseModel);
