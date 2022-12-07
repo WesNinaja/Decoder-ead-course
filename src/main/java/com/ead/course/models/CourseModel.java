@@ -55,6 +55,9 @@ public class CourseModel implements Serializable {
      * Com o writeOnly ele só vai mostrar a lista quando houve uma escrita, vai mostrar esse campo quando tiver uma deserialização com escrita
      * <p>
      * Fetch type laze para carregar apenas dados do tipo module quando eu realmente for utilizá-lo
+     * E com o orphanRemoval eu informo que se tiver algum modulo que não tiver vinculo com curso, ele tbm vai ser deletado.
+     * Com o CascadeType.ALL eu delego ao jpa para deletar todos os modulos relacionados ao curso. Só que desse jeito a performance é pior, pq faço um comando pra deletar curso, e mais outros comandos pra deletar cada modulo.
+     * Vamos delegar pra nossa aplicação fazer essa deleção com o @Transactional, assim vamos ter um controle maior do que está acontecendo
      */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
