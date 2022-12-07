@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -45,14 +47,18 @@ public class CourseModel implements Serializable {
     private CourseLevel courseLevel;
     @Column(nullable = false)
     private UUID userInstructor;
-
-    //Um curso para vários módulos
-    //Vou passar dentro de módulo qual vai ser a chave estrangeira, desssa forma o Hibernate vai criar a associação
-    //Usamos o SET no caso, porque assim o Hibernate numa consulta de course, pode trazer vários tipos de coleções, diferente do list
-    //O Hibernate não consegue lidar com list, e gera multiplas querys desnecessárias
-    //Com o writeOnly ele só vai mostrar a lista quando houve uma escrita, vai mostrar esse campo quando tiver uma deserialização com escrita
+    /***
+     * Um curso para vários módulos
+     * Vou passar em módulo qual vai ser a chave estrangeira, desssa forma o Hibernate vai criar a associação
+     * Usamos o SET no caso, porque assim o Hibernate numa consulta de course, pode trazer vários tipos de coleções, diferente do list
+     * O Hibernate não consegue lidar com list, e gera multiplas querys desnecessárias
+     * Com o writeOnly ele só vai mostrar a lista quando houve uma escrita, vai mostrar esse campo quando tiver uma deserialização com escrita
+     * <p>
+     * Fetch type laze para carregar apenas dados do tipo module quando eu realmente for utilizá-lo
+     */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
     private Set<ModuleModel> modules;
 
 }
