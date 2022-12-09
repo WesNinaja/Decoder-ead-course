@@ -51,4 +51,5 @@ public class ModuleServiceImpl implements ModuleService {
     public Optional<ModuleModel> findById(UUID moduleId) {
         return moduleRepository.findById(moduleId);
     }
+
 }
