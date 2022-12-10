@@ -62,7 +62,7 @@ public class CourseController {
         CourseModel courseModel = courseModelOptional.get();
         courseModel.setName(courseDto.getName());
         courseModel.setDescription(courseDto.getDescription());
-        courseModel.setUrlImg(courseDto.getImageUrl());
+        courseModel.setImageUrl(courseDto.getImageUrl());
         courseModel.setCourseStatus(courseDto.getCourseStatus());
         courseModel.setCourseLevel(courseDto.getCourseLevel());
         courseModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
